@@ -8,19 +8,41 @@ class Employee(db.Model):
     name = db.Column(db.String(100), nullable=False)
     position = db.Column(db.String(100), nullable=False)
 
-class Product(db.Model):
-    __tablename__ = 'products'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    price = db.Column(db.Float, nullable=False)
-
 class Order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
-    customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
-    quantity = db.Column(db.Integer, nullable=False)
-    total_price = db.Column(db.Float, nullable=False)
+    employee_name = db.Column(db.String(50))  # Ensure this matches your intent
+    quantity = db.Column(db.Integer)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+    customer_id = db.Column(db.Integer)
+    total_value = db.Column(db.Float)
+    date = db.Column(db.Date)
+
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'employee_name': self.employee_name,
+            'quantity': self.quantity,
+            'product_id': self.product_id,
+            'customer_id': self.customer_id,
+            'total_value': self.total_value,
+            'date': self.date,
+            # other fields...
+        }
+
+class Product(db.Model):
+    __tablename__ = 'products'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    # other fields...
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            # other fields...
+        }
 
 class Customer(db.Model):
     __tablename__ = 'customers'

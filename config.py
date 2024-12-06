@@ -4,8 +4,8 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///factory.db'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Like214!@localhost/factory'
 
 class ProductionConfig(Config):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql://user:password@localhost/factory'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://user:Like214!@localhost/factory'
