@@ -66,8 +66,6 @@ def top_selling_products():
 
     return jsonify([{'product_name': r.name, 'total_quantity': int(r.total_quantity)} for r in results])
 
-
-# Determine Customer Lifetime Value
 @app.route('/customer_lifetime_value', methods=['GET'])
 def customer_lifetime_value():
     threshold = request.args.get('threshold', 100, type=float)
@@ -82,7 +80,6 @@ def customer_lifetime_value():
     return jsonify([{'customer_id': r.customer_id, 'total_value': float(r.total_value)} for r in results])
 
 
-# Evaluate Production Efficiency
 @app.route('/production_efficiency', methods=['GET'])
 def production_efficiency():
     specific_date = request.args.get('date')

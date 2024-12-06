@@ -8,17 +8,14 @@ def create_app(config_class=DevelopmentConfig):
     app = Flask(__name__)
     app.config.from_object(config_class)
     
-    # Initialize extensions
     db.init_app(app)
     
-    # Initialize limiter
     limiter = Limiter(
         app=app,
         key_func=get_remote_address,
         default_limits=["200 per day", "50 per hour"]
     )
     
-    # Register blueprints
     from blueprints.employee import employee_bp
     from blueprints.product import product_bp
     from blueprints.order import order_bp
@@ -31,7 +28,6 @@ def create_app(config_class=DevelopmentConfig):
     app.register_blueprint(customer_bp, url_prefix='/api/customers')
     app.register_blueprint(production_bp, url_prefix='/api/production')
     
-    # Create database tables
     with app.app_context():
         db.create_all()
     

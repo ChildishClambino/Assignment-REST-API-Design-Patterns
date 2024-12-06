@@ -11,7 +11,7 @@ class Employee(db.Model):
 class Order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
-    employee_name = db.Column(db.String(50))  # Ensure this matches your intent
+    employee_name = db.Column(db.String(50))  
     quantity = db.Column(db.Integer)
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
     customer_id = db.Column(db.Integer)
@@ -28,20 +28,17 @@ class Order(db.Model):
             'customer_id': self.customer_id,
             'total_value': self.total_value,
             'date': self.date,
-            # other fields...
         }
 
 class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
-    # other fields...
 
     def to_dict(self):
         return {
             'id': self.id,
             'name': self.name,
-            # other fields...
         }
 
 class Customer(db.Model):
