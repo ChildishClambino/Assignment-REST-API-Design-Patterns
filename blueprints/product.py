@@ -1,14 +1,13 @@
 from flask import Blueprint, request, jsonify
 from models import db, Product
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
+from utils.util import token_required, role_required
 
 product_bp = Blueprint('product', __name__)
-limiter = Limiter(key_func=get_remote_address)
 
 @product_bp.route('', methods=['POST'])
-@limiter.limit("10 per minute")
-def create_product():
+@token_required
+@role_required('admin')
+def create_product(decoded_token):
     data = request.get_json()
     new_product = Product(
         name=data['name'],
@@ -19,8 +18,8 @@ def create_product():
     return jsonify({'message': 'Product created successfully'}), 201
 
 @product_bp.route('', methods=['GET'])
-@limiter.limit("100 per minute")
-def get_all_products():
+@token_required
+def get_all_products(decoded_token):
     products = Product.query.all()
     return jsonify([{
         'id': prod.id,
