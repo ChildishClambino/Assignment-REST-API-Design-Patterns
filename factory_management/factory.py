@@ -3,7 +3,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from factory_management.models import db
 from factory_management.config import DevelopmentConfig
-
+from factory_management.blueprints.employee import employee_bp
 
 def create_app(config_class=DevelopmentConfig):
     app = Flask(__name__)
