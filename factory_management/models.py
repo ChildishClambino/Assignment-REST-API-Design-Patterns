@@ -1,13 +1,24 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
+
 db = SQLAlchemy()
 
 class Employee(db.Model):
     __tablename__ = 'employees'
+
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    position = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(128), nullable=False)
+    position = db.Column(db.String(128), nullable=False)
+
+    def to_dict(self):
+        """Return a dictionary representation of the Employee."""
+        return {
+            "id": self.id,
+            "name": self.name,
+            "position": self.position
+        }
 
 class Order(db.Model):
     __tablename__ = 'orders'
