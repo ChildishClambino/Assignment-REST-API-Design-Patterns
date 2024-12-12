@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify
 from factory_management.models import db, User
-
 from utils.util import encode_token
 
 auth_bp = Blueprint('auth', __name__)

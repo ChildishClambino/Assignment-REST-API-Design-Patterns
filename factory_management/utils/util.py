@@ -6,27 +6,19 @@ from factory_management.config import Config
 
 SECRET_KEY = Config.SECRET_KEY
 
-# Function to encode a token
 def encode_token(user_id, role):
-    """
-    Generates a JWT token with the user's ID and role.
-    """
     try:
         payload = {
-            'exp': datetime.utcnow() + timedelta(hours=1),  
-            'iat': datetime.utcnow(),                      
-            'sub': str(user_id),                           
-            'role': role                                   
+            'exp': datetime.utcnow() + timedelta(hours=1),
+            'iat': datetime.utcnow(),
+            'sub': str(user_id),
+            'role': role
         }
         return jwt.encode(payload, SECRET_KEY, algorithm='HS256')
     except Exception as e:
         raise ValueError(f"Error encoding token: {e}")
-    
-# Function to decode a token
+
 def decode_token(token):
-    """
-    Decodes a JWT token and returns the payload if valid.
-    """
     try:
         print(f"Decoding token: {token}")
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
@@ -39,7 +31,6 @@ def decode_token(token):
         print(f"Error: {e}")
         return {'error': 'Invalid token. Please log in again.'}
 
-# Decorator to check if a valid token is provided
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -49,7 +40,7 @@ def token_required(f):
             return jsonify({'message': 'Token is missing!'}), 401
         try:
             print(f"Raw token from header: {token}")
-            token = token.split(" ")[1]  #  this removes 'Bearer' prefix
+            token = token.split(" ")[1]
             print(f"Token after split: {token}")
             decoded_token = decode_token(token)
             print(f"Decoded token: {decoded_token}")
@@ -61,11 +52,7 @@ def token_required(f):
         return f(decoded_token, *args, **kwargs)
     return decorated
 
-# Decorator to validate role-based access
 def role_required(role):
-    """
-    Checks if the decoded token has the specified role.
-    """
     def decorator(f):
         @wraps(f)
         def decorated_function(decoded_token, *args, **kwargs):
