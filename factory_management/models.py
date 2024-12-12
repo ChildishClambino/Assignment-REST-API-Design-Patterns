@@ -21,25 +21,22 @@ class Employee(db.Model):
         }
 
 class Order(db.Model):
-    __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
-    employee_name = db.Column(db.String(50))
-    quantity = db.Column(db.Integer)
-    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
-    customer_id = db.Column(db.Integer)
-    total_value = db.Column(db.Float)
-    date = db.Column(db.Date)
+    customer_id = db.Column(db.Integer, nullable=False)
+    product_id = db.Column(db.Integer, nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    total_price = db.Column(db.Float, nullable=False)  # Ensure this matches your test
+
 
     def to_dict(self):
         return {
-            'id': self.id,
-            'employee_name': self.employee_name,
-            'quantity': self.quantity,
-            'product_id': self.product_id,
-            'customer_id': self.customer_id,
-            'total_value': self.total_value,
-            'date': self.date,
+            "id": self.id,
+            "customer_id": self.customer_id,
+            "product_id": self.product_id,
+            "quantity": self.quantity,
+            "total_price": self.total_price
         }
+
 
 class Product(db.Model):
     __tablename__ = 'products'

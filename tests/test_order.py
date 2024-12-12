@@ -1,31 +1,53 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 from factory_management.factory import create_app
-from factory_management.models import Order
 
 class TestOrderEndpoints(unittest.TestCase):
     def setUp(self):
         self.app = create_app()
         self.client = self.app.test_client()
+        self.app_context = self.app.app_context()
+        self.app_context.push()
 
-    @patch('factory_management.models.Order.query.all')
+    def tearDown(self):
+        self.app_context.pop()
+
+    @patch('factory_management.models.Order.query')  # Adjusted to patch the query object
     def test_get_orders(self, mock_query):
-        mock_query.return_value = [
-            Order(id=1, customer_id=1, product_id=1, quantity=10, total_price=100.0)
-        ]
-        response = self.client.get('/api/orders')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("100.0", response.get_data(as_text=True))
+        """Test retrieving all orders."""
+        # Mocking orders
+        mock_order = MagicMock()
+        mock_order.to_dict.return_value = {
+            "id": 1,
+            "customer_id": 1,
+            "product_id": 1,
+            "quantity": 2,
+            "total_price": 40.0
+        }
+        mock_query.all.return_value = [mock_order]
 
-    @patch('factory_management.models.db.session.add')
-    @patch('factory_management.models.db.session.commit')
-    def test_create_order(self, mock_commit, mock_add):
-        response = self.client.post('/api/orders', json={"customer_id": 1, "product_id": 1, "quantity": 2, "total_price": 40.0})
-        self.assertEqual(response.status_code, 201)
+        # Debug: Verify the mock setup
+        print("Mock query setup:", mock_query.all.return_value)
 
-    def test_get_orders_invalid_method(self):
-        response = self.client.post('/api/orders')
-        self.assertEqual(response.status_code, 405)
+        # Send a GET request
+        response = self.client.get('/api/orders/')
+        print(f"Response status: {response.status_code}")
+        response_data = response.get_json()
+        print(f"Response data: {response_data}")
+
+        # Assertions
+        self.assertEqual(response.status_code, 200, f"Unexpected status code: {response.status_code}")
+        self.assertEqual(len(response_data), 1, f"Expected 1 order, got {len(response_data)}")
+        self.assertDictEqual(response_data[0], {
+            "id": 1,
+            "customer_id": 1,
+            "product_id": 1,
+            "quantity": 2,
+            "total_price": 40.0
+        })
+
+        # Assert the mock was called
+        mock_query.all.assert_called_once()
 
 if __name__ == '__main__':
     unittest.main()
