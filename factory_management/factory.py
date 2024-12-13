@@ -33,7 +33,7 @@ def create_app(config_class=DevelopmentConfig):
     if 'customer_bp' not in app.blueprints:
         app.register_blueprint(customer_bp, url_prefix='/api/customers')
     if 'production_bp' not in app.blueprints:
-        app.register_blueprint(production_bp, url_prefix='/api/production')
+        app.register_blueprint(production_bp, url_prefix='/api/productions')
 
     with app.app_context():
         db.create_all()
