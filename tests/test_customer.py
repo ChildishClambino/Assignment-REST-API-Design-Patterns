@@ -8,12 +8,12 @@ class TestCustomerEndpoints(unittest.TestCase):
         """Set up the test client."""
         self.app = create_app()
         self.app_context = self.app.app_context()
-        self.app_context.push()  # Activate the app context
+        self.app_context.push()  
         self.client = self.app.test_client()
 
     def tearDown(self):
         """Tear down the test client."""
-        self.app_context.pop()  # Remove the app context
+        self.app_context.pop()  
 
 
     @patch('factory_management.models.Customer.query.all')
@@ -43,8 +43,8 @@ class TestCustomerEndpoints(unittest.TestCase):
 
     def test_get_customers_invalid_method(self):
         """Test accessing /api/customers with an invalid HTTP method."""
-        response = self.client.post('/api/customers')  # POST is invalid for this endpoint
-        self.assertIn(response.status_code, [400, 405])  # Accept both codes for now
+        response = self.client.post('/api/customers')  
+        self.assertIn(response.status_code, [400, 405])  
 
 
 if __name__ == '__main__':

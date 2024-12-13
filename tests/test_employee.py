@@ -17,7 +17,6 @@ class TestEmployeeEndpoints(unittest.TestCase):
     @patch('factory_management.blueprints.employee.Employee.query')
     def test_get_employees(self, mock_query):
         """Test retrieving all employees."""
-        # Define mock employees
         mock_employee1 = MagicMock()
         mock_employee1.to_dict.return_value = {
             "id": 1,
@@ -31,18 +30,15 @@ class TestEmployeeEndpoints(unittest.TestCase):
             "position": "Developer"
         }
 
-        # Mock the query.all() method
         mock_query.all.return_value = [mock_employee1, mock_employee2]
 
         # Debugging mock values
         print("Mock Employee 1:", mock_employee1.to_dict())
         print("Mock Employee 2:", mock_employee2.to_dict())
 
-        # Send a GET request to /api/employees/
         response = self.client.get('/api/employees/')
         self.assertEqual(response.status_code, 200)
 
-        # Verify the response data
         response_data = response.get_json()
         print("Mocked response data:", response_data)  # Debugging
         self.assertEqual(len(response_data), 2)
@@ -51,8 +47,7 @@ class TestEmployeeEndpoints(unittest.TestCase):
 
     def test_get_employees_invalid_method(self):
         """Test accessing /api/employees with an invalid HTTP method."""
-        response = self.client.post('/api/employees/')  # Using POST instead of GET
-        self.assertEqual(response.status_code, 405)  # Method Not Allowed
-
+        response = self.client.post('/api/employees/')  
+        self.assertEqual(response.status_code, 405)  
 if __name__ == '__main__':
     unittest.main()

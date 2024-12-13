@@ -25,8 +25,7 @@ class Order(db.Model):
     customer_id = db.Column(db.Integer, nullable=False)
     product_id = db.Column(db.Integer, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
-    total_price = db.Column(db.Float, nullable=False)  # Ensure this matches your test
-
+    total_price = db.Column(db.Float, nullable=False)
 
     def to_dict(self):
         return {
@@ -50,7 +49,6 @@ class Product(db.Model):
             'name': self.name,
             'price': self.price 
         }
-
 
 class Customer(db.Model):
     __tablename__ = 'customers'

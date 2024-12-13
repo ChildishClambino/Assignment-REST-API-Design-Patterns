@@ -10,7 +10,7 @@ class TestProductionEndpoints(unittest.TestCase):
         self.app = create_app()
         self.client = self.app.test_client()
         self.app_context = self.app.app_context()
-        self.app_context.push()  # Push the application context for testing
+        self.app_context.push()  
 
     def tearDown(self):
         """Tear down the application context."""
@@ -19,7 +19,6 @@ class TestProductionEndpoints(unittest.TestCase):
     @patch('factory_management.models.Production.query')
     def test_get_productions(self, mock_query):
         """Test retrieving all production records."""
-        # Mock the query
         mock_production = Production(
             id=1,
             product_id=1,
@@ -27,10 +26,8 @@ class TestProductionEndpoints(unittest.TestCase):
             date_produced=datetime(2024, 12, 10).date()
         )
 
-        # Configure `all` method for the mock
         mock_query.all.return_value = [mock_production]
 
-        # Mock the `to_dict` method for serialization
         mock_production.to_dict = lambda: {
             "id": mock_production.id,
             "product_id": mock_production.product_id,
@@ -41,7 +38,6 @@ class TestProductionEndpoints(unittest.TestCase):
         # Debugging: Ensure mock is set
         print(f"Mock production to_dict: {mock_production.to_dict()}")
 
-        # Expected response
         expected_response = [{
             "id": 1,
             "product_id": 1,
@@ -49,7 +45,6 @@ class TestProductionEndpoints(unittest.TestCase):
             "date_produced": "2024-12-10"
         }]
 
-        # Send GET request
         response = self.client.get('/api/productions', headers={"Authorization": "Bearer mock_token"})
         response_data = response.get_json()
 
