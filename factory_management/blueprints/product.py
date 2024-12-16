@@ -5,7 +5,7 @@ from factory_management.utils.util import token_required, role_required
 
 product_bp = Blueprint('product', __name__)
 
-@product_bp.route('', methods=['POST'])
+@product_bp.route('/', methods=['POST'])
 @token_required
 @role_required('admin')
 def create_product(decoded_token):
@@ -18,7 +18,7 @@ def create_product(decoded_token):
     db.session.commit()
     return jsonify({'message': 'Product created successfully'}), 201
 
-@product_bp.route('', methods=['GET'])
+@product_bp.route('/', methods=['GET'])
 @token_required
 def get_all_products(decoded_token):
     products = Product.query.all()

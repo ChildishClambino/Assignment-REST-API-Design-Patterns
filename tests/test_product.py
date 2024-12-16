@@ -44,9 +44,9 @@ class TestProductEndpoints(unittest.TestCase):
         Test accessing /api/products with an invalid HTTP method. 
         This skips role validation to directly check for 405.
         """
-        response = self.client.put('/api/products')  # Use PUT instead of POST or GET
+        response = self.client.put('/api/products')  
         print(f"Invalid method response status: {response.status_code}")
-        self.assertEqual(response.status_code, 405)  # Expect 405 Method Not Allowed
+        self.assertEqual(response.status_code, 405) 
 
 
 if __name__ == '__main__':

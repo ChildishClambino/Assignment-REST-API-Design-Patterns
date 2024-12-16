@@ -12,7 +12,7 @@ class TestOrderEndpoints(unittest.TestCase):
     def tearDown(self):
         self.app_context.pop()
 
-    @patch('factory_management.models.Order.query')  # Adjusted to patch the query object
+    @patch('factory_management.models.Order.query')  
     def test_get_orders(self, mock_query):
         """Test retrieving all orders."""
         # Mocking orders
@@ -29,7 +29,6 @@ class TestOrderEndpoints(unittest.TestCase):
         # Debug: Verify the mock setup
         print("Mock query setup:", mock_query.all.return_value)
 
-        # Send a GET request
         response = self.client.get('/api/orders/')
         print(f"Response status: {response.status_code}")
         response_data = response.get_json()

@@ -1,10 +1,10 @@
 import os
 import sys
+from factory_management.factory import create_app
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from factory_management.factory import create_app
-
+# Create the Flask app using the factory function
 app = create_app()
 print("App created successfully")
 

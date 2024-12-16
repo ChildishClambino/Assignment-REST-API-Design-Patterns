@@ -7,7 +7,7 @@ from flask_limiter.util import get_remote_address
 customer_bp = Blueprint('customer', __name__)
 limiter = Limiter(key_func=get_remote_address)
 
-@customer_bp.route('', methods=['POST'])
+@customer_bp.route('/', methods=['POST'])
 @limiter.limit("10 per minute")
 def create_customer():
     data = request.get_json()
@@ -20,7 +20,7 @@ def create_customer():
     db.session.commit()
     return jsonify({'message': 'Customer created successfully'}), 201
 
-@customer_bp.route('', methods=['GET'])
+@customer_bp.route('/', methods=['GET'])
 @limiter.limit("100 per minute")
 def get_all_customers():
     customers = Customer.query.all()

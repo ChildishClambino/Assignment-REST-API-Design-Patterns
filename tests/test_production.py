@@ -60,18 +60,11 @@ class TestProductionEndpoints(unittest.TestCase):
         # Ensure the mock was called
         mock_query.all.assert_called_once()
 
-
-
-
-
-
-
-
     @patch('factory_management.models.db.session.add')
     @patch('factory_management.models.db.session.commit')
     def test_create_production(self, mock_commit, mock_add):
         """Test creating a new production record."""
-        # Simulate POST request
+        
         response = self.client.post('/api/productions', json={
             "product_id": 1,
             "quantity_produced": 100,

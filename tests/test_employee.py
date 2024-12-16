@@ -8,7 +8,7 @@ class TestEmployeeEndpoints(unittest.TestCase):
         self.app = create_app()
         self.client = self.app.test_client()
         self.app_context = self.app.app_context()
-        self.app_context.push()  # Push the application context
+        self.app_context.push()  
 
     def tearDown(self):
         """Tear down the application context."""

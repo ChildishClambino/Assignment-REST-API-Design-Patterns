@@ -7,7 +7,7 @@ from datetime import datetime
 production_bp = Blueprint('production', __name__)
 limiter = Limiter(key_func=get_remote_address)
 
-@production_bp.route('', methods=['POST'])
+@production_bp.route('/', methods=['POST'])
 @limiter.limit("10 per minute")
 def create_production():
     data = request.get_json()
